@@ -2,8 +2,22 @@
 #include <string>
 #include <cstdio>
 
+bool compare(float speed, float extremum) {
+    float epsilon = 0.01;
+    return (speed >= extremum - epsilon) && (speed <= extremum + epsilon);
+}
+
 int main() {
-    
+    float speed_value = 0.0;
+    do {
+        float delta_value;
+        std::cout << "Input delta value: ";
+        std::cin >> delta_value;
+        speed_value += delta_value;
+        char speed_str[5];
+        std::sprintf(speed_str, "%.1f", speed_value);
+        std::cout << speed_str << std::endl;
+    } while (!compare(speed_value, 150) && !compare(speed_value, 0));
 }
 
 /*
