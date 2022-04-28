@@ -3,7 +3,17 @@
 #include <sstream>
 
 int main() {
-    
+    std::string buffer;
+    std::cout << "Input operation: ";
+    std::cin >> buffer;
+    std::stringstream buffer_stream(buffer);
+    double a, b;
+    char operation;
+    buffer_stream >> a >> operation >> b;
+    if (operation == '+') std::cout << a + b; 
+    else if (operation == '-') std::cout << a - b;
+    else if (operation == '*') std::cout << a * b;
+    else if (operation == '/') std::cout << a / b;
 }
 
 /*
