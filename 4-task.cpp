@@ -12,7 +12,42 @@ enum note
 };
 
 int main() {
-    
+    int chord[12];
+    for (int i = 0; i < 12; i++) {
+        chord[i] = 0;
+    }
+    for (int i = 0; i < 12; i++) {
+        for (int j = 0; j < 3; j++) {
+            int temp;
+            std::cout << "Input note number " << j + 1 << " for " << i + 1 << " chord: ";
+            std::cin >> temp;
+            chord[i] |= (1 << (temp - 1));
+        }
+    }
+    for (int i = 0; i < 12; i++) {
+        if (chord[i] & C) {
+            std::cout << "Do ";
+        }
+        if (chord[i] & D) {
+            std::cout << "Re ";
+        }
+        if (chord[i] & E) {
+            std::cout << "Mi ";
+        }
+        if (chord[i] & F) {
+            std::cout << "Fa ";
+        }
+        if (chord[i] & G) {
+            std::cout << "Sol ";
+        }
+        if (chord[i] & A) {
+            std::cout << "La ";
+        }
+        if (chord[i] & B) {
+            std::cout << "Si ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 /*
