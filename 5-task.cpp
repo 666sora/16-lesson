@@ -1,7 +1,82 @@
 #include <iostream>
+#include <string>
+#include <sstream>
+
+enum switches
+{
+    LIGHTS_INSIDE = 1,
+    LIGHTS_OUTSIDE = 2,
+    HEATERS = 4,
+    WATER_PIPE_HEATING = 8,
+    CONDITIONER = 16
+};
 
 int main() {
-    
+    int state = 0;
+    for (int i = 0; i <= 48; i++) { 
+        std::cout << "Now " << (i % 24 ? (i % 12 ? i % 12 : 12) : 0) 
+                  << ":00 " << (i % 24 < 12 ? "am" : "pm") << std::endl;
+        std::string data;
+        std::cout << "Input data(\"temperature outside\" \"temperature inside\" \"motion outside\" \"lights inside\"): " << std::endl;
+        std::getline (std::cin, data);
+        std::stringstream stream(data);
+        int tempOutside, tempInside;
+        std::string motionOutside, lightsInside;
+        stream >> tempOutside >> tempInside >> motionOutside >> lightsInside;
+        if (tempOutside < 0 && !(state & WATER_PIPE_HEATING)) {
+            state |= WATER_PIPE_HEATING;
+            std::cout << "A water pipe heaters are on" << std::endl;
+        }
+        else if (tempOutside > 5 && (state & WATER_PIPE_HEATING)) {
+            state &= ~WATER_PIPE_HEATING;
+            std::cout << "A water pipe heaters are off" << std::endl;
+        }
+        if ((motionOutside == "yes" && (i % 24 > 16 || i % 24 < 5)) && !(state & LIGHTS_OUTSIDE)) {
+            state |= LIGHTS_OUTSIDE;
+            std::cout << "A lights outside are on" << std::endl;
+        }
+        else if ((motionOutside == "no" || (i % 24 < 16 && i % 24 > 5)) && (state & LIGHTS_OUTSIDE)) {
+            state &= ~LIGHTS_OUTSIDE;
+            std::cout << "A lights outside are off" << std::endl;
+        }
+        if (tempInside < 22 && !(state & HEATERS)) {
+            state |= HEATERS;
+            std::cout << "A heaters inside are on" << std::endl;
+        }
+        else if (tempInside >= 25 && (state & HEATERS)) {
+            state &= ~HEATERS;
+            std::cout << "A heaters inside are off" << std::endl;
+        }
+        if (tempInside >= 30 && !(state & CONDITIONER)) {
+            state |= CONDITIONER;
+            std::cout << "A conditioner is on" << std::endl;
+        }
+        else if (tempInside <= 25 && (state & CONDITIONER)) {
+            state &= ~CONDITIONER;
+            std::cout << "A conditioner is off" << std::endl;
+        }
+        int color;
+        if (i % 24 > 16 && i % 24 < 21) {
+            color = 5000 - 575 * ((i % 24) % 16);
+        }
+        else if (i % 24 <= 16 && i % 24 >= 0) {
+            color = 5000;
+        }
+        else if (i % 24 > 20 && i % 24 < 0) {
+            color = 2700;
+        } 
+        if (lightsInside == "on" && !(state & LIGHTS_INSIDE)) {
+            state |= LIGHTS_INSIDE;
+            std::cout << "A lights inside are on with color " << color << std::endl;
+        }
+        else if (lightsInside == "on" && (state & LIGHTS_INSIDE)) {
+            std::cout << "A lights inside have color " << color << std::endl;
+        }
+        else if (lightsInside == "off" && (state & LIGHTS_INSIDE)) {
+            state &= ~LIGHTS_INSIDE;
+            std::cout << "A lights inside are off" << std::endl;
+        }
+    }
 }
 
 /*
