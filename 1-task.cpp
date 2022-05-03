@@ -17,7 +17,7 @@ int main() {
         char speed_str[5];
         std::sprintf(speed_str, "%.1f", speed_value);
         std::cout << speed_str << std::endl;
-    } while (!compare(speed_value, 150) && !compare(speed_value, 0));
+    } while (!compare(speed_value, 150) && !compare(speed_value, 0) && speed_value <= 150);
 }
 
 /*
