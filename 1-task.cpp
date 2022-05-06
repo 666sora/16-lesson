@@ -11,13 +11,18 @@ int main() {
     float speed_value = 0.0;
     do {
         float delta_value;
-        std::cout << "Input delta value: ";
-        std::cin >> delta_value;
+        do {
+            std::cout << "Input delta value: ";
+            std::cin >> delta_value;
+            if (speed_value + delta_value > 150) {
+                std::cout << "Invalid input" << std::endl;
+            }
+        } while (speed_value + delta_value > 150);
         speed_value += delta_value;
         char speed_str[5];
         std::sprintf(speed_str, "%.1f", speed_value);
         std::cout << speed_str << std::endl;
-    } while (!compare(speed_value, 150) && !compare(speed_value, 0) && speed_value <= 150);
+    } while (!compare(speed_value, 0));
 }
 
 /*
