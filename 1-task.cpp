@@ -14,10 +14,10 @@ int main() {
         do {
             std::cout << "Input delta value: ";
             std::cin >> delta_value;
-            if (speed_value + delta_value > 150) {
+            if (speed_value + delta_value > 150 || speed_value + delta_value < 0) {
                 std::cout << "Invalid input" << std::endl;
             }
-        } while (speed_value + delta_value > 150);
+        } while (speed_value + delta_value > 150 || speed_value + delta_value < 0);
         speed_value += delta_value;
         char speed_str[5];
         std::sprintf(speed_str, "%.1f", speed_value);
